@@ -2,22 +2,37 @@
 
 {{define "content"}}
     <div class="container">
-        <div class="row">
-            <div class="col">
-                <h1>This is the about page</h1>
-                <p>This is a paragraph of text</p>
-                <p>This is a paragraph of text</p>
-
-                <p>This came from the template: {{index .StringMap "test"}}</p>
-
-                <p>
-                    {{if ne (index .StringMap "remote_ip") ""}}
-                        Your remote ip address is {{index .StringMap "remote_ip"}}
-                    {{else}}
-                        I don't know your ip address yet. Visit the <a href="/">home page</a> so I can set it.
-                    {{end}}
-                </p>
+        <form action="/resident" method="post">
+            <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" name="name" id="name">
             </div>
-        </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" name="email" id="email">
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone:</label>
+                <input type="text" class="form-control" name="phone" id="phone">
+            </div>
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" class="form-control" name="address" id="address">
+            </div>
+            <div class="form-group">
+                <label for="city">City:</label>
+                <input type="text" class="form-control" name="city" id="city">
+            </div>
+            <div class="form-group">
+                <label for="state">State:</label>
+                <input type="text" class="form-control" name="state" id="state">
+            </div>
+            <div class="form-group">
+                <label for="zip">Zip:</label>
+                <input type="text" class="form-control" name="zip" id="zip">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
     </div>
 {{end}}

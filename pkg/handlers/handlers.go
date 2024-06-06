@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/otavio-Pucharelli/filhos-da-luz/pkg/config"
@@ -33,25 +34,28 @@ func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
 	remoteIP := r.RemoteAddr
 	m.App.Session.Put(r.Context(), "remote_ip", remoteIP)
 
-	render.RenderTemplate(w, "home.page.tpl.html", &models.TemplateData{})
+	render.RenderTemplate(w, r, "home.page.tpl.html", &models.TemplateData{})
 }
 
 // About is the handler for the about page
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "about.page.tpl.html", &models.TemplateData{})
+	render.RenderTemplate(w, r, "about.page.tpl.html", &models.TemplateData{})
 }
 
-// About is the handler for the about page
+// Resident is the handler for the about page
 func (m *Repository) Resident(w http.ResponseWriter, r *http.Request) {
-	// perform some logic
-	stringMap := make(map[string]string)
-	stringMap["test"] = "Hello, again"
+	render.RenderTemplate(w, r, "resident.page.tpl.html", &models.TemplateData{})
+}
 
-	remoteIP := m.App.Session.GetString(r.Context(), "remote_ip")
-	stringMap["remote_ip"] = remoteIP
+// PostResident is the handler for the about page
+func (m *Repository) PostResident(w http.ResponseWriter, r *http.Request) {
+	name := r.Form.Get("name")
+	email := r.Form.Get("email")
+	phone := r.Form.Get("phone")
+	address := r.Form.Get("address")
+	city := r.Form.Get("city")
+	state := r.Form.Get("state")
+	zip := r.Form.Get("zip")
 
-	// send data to the template
-	render.RenderTemplate(w, "resident.page.tpl.html", &models.TemplateData{
-		StringMap: stringMap,
-	})
+	w.Write([]byte(fmt.Sprintf("Name: %s\nEmail: %s\nPhone: %s\nAddress: %s\nCity: %s\nState: %s\nZip: %s", name, email, phone, address, city, state, zip)))
 }
