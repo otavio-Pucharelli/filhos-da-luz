@@ -1,12 +1,13 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
-	"github.com/otavio-Pucharelli/filhos-da-luz/pkg/config"
-	"github.com/otavio-Pucharelli/filhos-da-luz/pkg/models"
-	"github.com/otavio-Pucharelli/filhos-da-luz/pkg/render"
+	"github.com/otavio-Pucharelli/filhos-da-luz/internal/config"
+	"github.com/otavio-Pucharelli/filhos-da-luz/internal/models"
+	"github.com/otavio-Pucharelli/filhos-da-luz/internal/render"
 )
 
 // Repo the repository used by the handlers
@@ -47,6 +48,12 @@ func (m *Repository) Resident(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, r, "resident.page.tpl.html", &models.TemplateData{})
 }
 
+// jsonResponse is a generic JSON response used by the API
+type jsonResponse struct {
+	OK      bool   `json:"ok"`
+	Message string `json:"message"`
+}
+
 // PostResident is the handler for the about page
 func (m *Repository) PostResident(w http.ResponseWriter, r *http.Request) {
 	name := r.Form.Get("name")
@@ -57,5 +64,17 @@ func (m *Repository) PostResident(w http.ResponseWriter, r *http.Request) {
 	state := r.Form.Get("state")
 	zip := r.Form.Get("zip")
 
+	resp := jsonResponse{
+		OK:      true,
+		Message: "Resident saved",
+	}
+
+	out, err := json.MarshalIndent(resp, "", "    ")
+	if err != nil {
+		http.Error(w, "Error processing JSON", http.StatusInternalServerError)
+
+	}
+
 	w.Write([]byte(fmt.Sprintf("Name: %s\nEmail: %s\nPhone: %s\nAddress: %s\nCity: %s\nState: %s\nZip: %s", name, email, phone, address, city, state, zip)))
+	w.Write([]byte(out))
 }

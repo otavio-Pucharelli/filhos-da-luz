@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/alexedwards/scs/v2"
-	"github.com/otavio-Pucharelli/filhos-da-luz/pkg/config"
-	"github.com/otavio-Pucharelli/filhos-da-luz/pkg/handlers"
-	"github.com/otavio-Pucharelli/filhos-da-luz/pkg/render"
+	"github.com/otavio-Pucharelli/filhos-da-luz/internal/config"
+	"github.com/otavio-Pucharelli/filhos-da-luz/internal/handlers"
+	"github.com/otavio-Pucharelli/filhos-da-luz/internal/render"
 )
 
 const portNumber = ":8080"
