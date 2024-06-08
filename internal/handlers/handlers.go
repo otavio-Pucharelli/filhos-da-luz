@@ -3,9 +3,11 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/otavio-Pucharelli/filhos-da-luz/internal/config"
+	"github.com/otavio-Pucharelli/filhos-da-luz/internal/forms"
 	"github.com/otavio-Pucharelli/filhos-da-luz/internal/models"
 	"github.com/otavio-Pucharelli/filhos-da-luz/internal/render"
 )
@@ -45,7 +47,13 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 
 // Resident is the handler for the about page
 func (m *Repository) Resident(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "resident.page.tpl.html", &models.TemplateData{})
+	var emptyResident models.Resident
+	data := make(map[string]interface{})
+	data["resident"] = emptyResident
+	render.RenderTemplate(w, r, "resident.page.tpl.html", &models.TemplateData{
+		Form: forms.New(nil),
+		Data: data,
+	})
 }
 
 // jsonResponse is a generic JSON response used by the API
@@ -56,13 +64,37 @@ type jsonResponse struct {
 
 // PostResident is the handler for the about page
 func (m *Repository) PostResident(w http.ResponseWriter, r *http.Request) {
-	name := r.Form.Get("name")
-	email := r.Form.Get("email")
-	phone := r.Form.Get("phone")
-	address := r.Form.Get("address")
-	city := r.Form.Get("city")
-	state := r.Form.Get("state")
-	zip := r.Form.Get("zip")
+	err := r.ParseForm()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	resident := models.Resident{
+		Name:    r.Form.Get("name"),
+		Email:   r.Form.Get("email"),
+		Phone:   r.Form.Get("phone"),
+		Address: r.Form.Get("address"),
+		City:    r.Form.Get("city"),
+		State:   r.Form.Get("state"),
+		Zip:     r.Form.Get("zip"),
+	}
+
+	// Validate the form
+	form := forms.New(r.PostForm)
+	form.Required("name", "email", "phone", "address", "city", "state", "zip")
+	form.IsEmail("email")
+
+	if !form.Valid() {
+		data := make(map[string]interface{})
+		data["resident"] = resident
+
+		render.RenderTemplate(w, r, "resident.page.tpl.html", &models.TemplateData{
+			Form: form,
+			Data: data,
+		})
+		return
+	}
 
 	resp := jsonResponse{
 		OK:      true,
@@ -75,6 +107,6 @@ func (m *Repository) PostResident(w http.ResponseWriter, r *http.Request) {
 
 	}
 
-	w.Write([]byte(fmt.Sprintf("Name: %s\nEmail: %s\nPhone: %s\nAddress: %s\nCity: %s\nState: %s\nZip: %s", name, email, phone, address, city, state, zip)))
+	w.Write([]byte(fmt.Sprintf("Name: %s\nEmail: %s\nPhone: %s\nAddress: %s\nCity: %s\nState: %s\nZip: %s", resident.Name, resident.Email, resident.Email, resident.Address, resident.City, resident.State, resident.Zip)))
 	w.Write([]byte(out))
 }

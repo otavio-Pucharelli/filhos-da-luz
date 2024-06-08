@@ -8,3 +8,4 @@ The repository for Filhos Da Luz
 - Uses the [chi router](github.com/go-chi/chi)
 - Uses [alex edwards scs session management](github.com/alexedwards/scs)
 - Uses [nosurf](github.com/justinas/nosurf)
+- Uses [govalidator](https://github.com/asaskevich/govalidator)

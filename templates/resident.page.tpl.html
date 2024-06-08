@@ -2,35 +2,58 @@
 
 {{define "content"}}
     <div class="container">
-        <form action="/resident" method="post">
+        {{$res := index .Data "resident"}}
+        <form action="/resident" method="post" class="" novalidate>
             <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" class="form-control" name="name" id="name">
+                {{with .Form.Errors.Get "name"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <input type="text" class="form-control {{with .Form.Errors.Get "name"}} is-invalid{{end}}"
+                    name="name" id="name" value="{{$res.Name}}" required>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" class="form-control" name="email" id="email">
+                {{with .Form.Errors.Get "email"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <input type="email" class="form-control {{with .Form.Errors.Get "email"}} is-invalid{{end}}" name="email" id="email" value="{{$res.Email}}">
             </div>
             <div class="form-group">
+                {{with .Form.Errors.Get "phone"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
                 <label for="phone">Phone:</label>
-                <input type="text" class="form-control" name="phone" id="phone">
+                <input type="text" class="form-control {{with .Form.Errors.Get "phone"}} is-invalid{{end}}" name="phone" id="phone" value="{{$res.Phone}}">
             </div>
             <div class="form-group">
                 <label for="address">Address:</label>
-                <input type="text" class="form-control" name="address" id="address">
+                {{with .Form.Errors.Get "address"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <input type="text" class="form-control {{with .Form.Errors.Get "address"}} is-invalid{{end}}" name="address" id="address" value="{{$res.Address}}">
             </div>
             <div class="form-group">
                 <label for="city">City:</label>
-                <input type="text" class="form-control" name="city" id="city">
+                {{with .Form.Errors.Get "city"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <input type="text" class="form-control {{with .Form.Errors.Get "city"}} is-invalid{{end}}" name="city" id="city" value="{{$res.City}}">
             </div>
             <div class="form-group">
                 <label for="state">State:</label>
-                <input type="text" class="form-control" name="state" id="state">
+                {{with .Form.Errors.Get "state"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <input type="text" class="form-control {{with .Form.Errors.Get "state"}} is-invalid{{end}}" name="state" id="state" value="{{$res.State}}">
             </div>
             <div class="form-group">
                 <label for="zip">Zip:</label>
-                <input type="text" class="form-control" name="zip" id="zip">
+                {{with .Form.Errors.Get "zip"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <input type="text" class="form-control {{with .Form.Errors.Get "zip"}} is-invalid{{end}}" name="zip" id="zip" value="{{$res.Zip}}">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
