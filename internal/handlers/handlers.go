@@ -3,11 +3,11 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/otavio-Pucharelli/filhos-da-luz/internal/config"
 	"github.com/otavio-Pucharelli/filhos-da-luz/internal/forms"
+	"github.com/otavio-Pucharelli/filhos-da-luz/internal/helpers"
 	"github.com/otavio-Pucharelli/filhos-da-luz/internal/models"
 	"github.com/otavio-Pucharelli/filhos-da-luz/internal/render"
 )
@@ -34,9 +34,6 @@ func NewHandlers(r *Repository) {
 
 // Home is the handler for the home page
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	remoteIP := r.RemoteAddr
-	m.App.Session.Put(r.Context(), "remote_ip", remoteIP)
-
 	render.RenderTemplate(w, r, "home.page.tpl.html", &models.TemplateData{})
 }
 
@@ -65,8 +62,9 @@ type jsonResponse struct {
 // PostResident is the handler for the about page
 func (m *Repository) PostResident(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
+
 	if err != nil {
-		log.Println(err)
+		helpers.ServerError(w, err)
 		return
 	}
 
@@ -103,8 +101,8 @@ func (m *Repository) PostResident(w http.ResponseWriter, r *http.Request) {
 
 	out, err := json.MarshalIndent(resp, "", "    ")
 	if err != nil {
-		http.Error(w, "Error processing JSON", http.StatusInternalServerError)
-
+		helpers.ServerError(w, err)
+		return
 	}
 
 	w.Write([]byte(fmt.Sprintf("Name: %s\nEmail: %s\nPhone: %s\nAddress: %s\nCity: %s\nState: %s\nZip: %s", resident.Name, resident.Email, resident.Email, resident.Address, resident.City, resident.State, resident.Zip)))
