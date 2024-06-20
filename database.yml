@@ -2,8 +2,8 @@
 development:
   dialect: postgres
   database: Filhos-da-luz
-  user: postgres
-  password: 23242907Op
+  user: 
+  password: 
   host: 127.0.0.1
   pool: 5
 
