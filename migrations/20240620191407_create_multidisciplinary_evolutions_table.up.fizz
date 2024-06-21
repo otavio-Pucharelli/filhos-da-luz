@@ -1,7 +1,7 @@
 create_table("multidisciplinaryEvolutions") {
   t.Column("id", "integer", {primary: true})
-  t.Column("id_resident", "integer", {foreign: {references: "residents"}})  
+  t.Column("id_resident", "integer", {})
   t.Column("date", "timestamp", {})
   t.Column("message", "string", {"size": 255})
+  t.ForeignKey("id_resident", {"residents": ["id"]}, {"on_delete": "cascade", "on_update": "cascade"}) 
 }
-

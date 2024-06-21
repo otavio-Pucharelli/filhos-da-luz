@@ -31,3 +31,5 @@ create_table("residents") {
   t.Column("indication", "string", {"size": 70})
   t.Column("observations", "string", {})
 }
+
+
