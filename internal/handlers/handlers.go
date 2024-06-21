@@ -6,10 +6,13 @@ import (
 	"net/http"
 
 	"github.com/otavio-Pucharelli/filhos-da-luz/internal/config"
+	"github.com/otavio-Pucharelli/filhos-da-luz/internal/driver"
 	"github.com/otavio-Pucharelli/filhos-da-luz/internal/forms"
 	"github.com/otavio-Pucharelli/filhos-da-luz/internal/helpers"
 	"github.com/otavio-Pucharelli/filhos-da-luz/internal/models"
 	"github.com/otavio-Pucharelli/filhos-da-luz/internal/render"
+	"github.com/otavio-Pucharelli/filhos-da-luz/internal/repository"
+	"github.com/otavio-Pucharelli/filhos-da-luz/internal/repository/dbrepo"
 )
 
 // Repo the repository used by the handlers
@@ -18,12 +21,14 @@ var Repo *Repository
 // Repository is the repository type
 type Repository struct {
 	App *config.AppConfig
+	DB  repository.DatabaseRepo
 }
 
 // NewRepo creates a new repository
-func NewRepo(a *config.AppConfig) *Repository {
+func NewRepo(a *config.AppConfig, db *driver.DB) *Repository {
 	return &Repository{
 		App: a,
+		DB:  dbrepo.NewPostgresRepo(db.SQL, a),
 	}
 }
 

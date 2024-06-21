@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,6 +10,7 @@ import (
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/otavio-Pucharelli/filhos-da-luz/internal/config"
+	"github.com/otavio-Pucharelli/filhos-da-luz/internal/driver"
 	"github.com/otavio-Pucharelli/filhos-da-luz/internal/handlers"
 	"github.com/otavio-Pucharelli/filhos-da-luz/internal/helpers"
 	"github.com/otavio-Pucharelli/filhos-da-luz/internal/render"
@@ -23,10 +25,12 @@ var errorLog *log.Logger
 
 // main is the main function
 func main() {
-	err := run()
+	db, err := run()
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	defer db.SQL.Close(context.Background())
 
 	fmt.Println(fmt.Sprintf("Staring application on port %s", portNumber))
 
@@ -41,7 +45,7 @@ func main() {
 	}
 }
 
-func run() error {
+func run() (*driver.DB, error) {
 	// change this to true when in production
 	app.InProduction = false
 
@@ -58,19 +62,26 @@ func run() error {
 
 	app.Session = session
 
+	// connect to database
+	log.Println("Connecting to database...")
+	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=Filhos-da-luz user=postgres password=23242907Op")
+	if err != nil {
+		log.Fatal("cannot connect to database")
+	}
+
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
 		log.Fatal("cannot create template cache")
-		return err
+		return nil, err
 	}
 
 	app.TemplateCache = tc
 	app.UseCache = false
 
-	repo := handlers.NewRepo(&app)
+	repo := handlers.NewRepo(&app, db)
 
 	handlers.NewHandlers(repo)
 	render.NewTemplates(&app)
 	helpers.NewHelpers(&app)
-	return nil
+	return db, nil
 }
