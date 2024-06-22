@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/otavio-Pucharelli/filhos-da-luz/internal/config"
@@ -39,12 +38,12 @@ func NewHandlers(r *Repository) {
 
 // Home is the handler for the home page
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "home.page.tpl.html", &models.TemplateData{})
+	render.Template(w, r, "home.page.tpl.html", &models.TemplateData{})
 }
 
 // About is the handler for the about page
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "about.page.tpl.html", &models.TemplateData{})
+	render.Template(w, r, "about.page.tpl.html", &models.TemplateData{})
 }
 
 // Resident is the handler for the about page
@@ -52,7 +51,7 @@ func (m *Repository) Resident(w http.ResponseWriter, r *http.Request) {
 	var emptyResident models.Resident
 	data := make(map[string]interface{})
 	data["resident"] = emptyResident
-	render.RenderTemplate(w, r, "resident.page.tpl.html", &models.TemplateData{
+	render.Template(w, r, "resident.page.tpl.html", &models.TemplateData{
 		Form: forms.New(nil),
 		Data: data,
 	})
@@ -74,9 +73,9 @@ func (m *Repository) PostResident(w http.ResponseWriter, r *http.Request) {
 	}
 
 	resident := models.Resident{
-		Name:    r.Form.Get("name"),
-		Email:   r.Form.Get("email"),
-		Phone:   r.Form.Get("phone"),
+		Name: r.Form.Get("name"),
+		//Email:   r.Form.Get("email"),
+		//Phone:   r.Form.Get("phone"),
 		Address: r.Form.Get("address"),
 		City:    r.Form.Get("city"),
 		State:   r.Form.Get("state"),
@@ -92,7 +91,7 @@ func (m *Repository) PostResident(w http.ResponseWriter, r *http.Request) {
 		data := make(map[string]interface{})
 		data["resident"] = resident
 
-		render.RenderTemplate(w, r, "resident.page.tpl.html", &models.TemplateData{
+		render.Template(w, r, "resident.page.tpl.html", &models.TemplateData{
 			Form: form,
 			Data: data,
 		})
@@ -110,6 +109,6 @@ func (m *Repository) PostResident(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte(fmt.Sprintf("Name: %s\nEmail: %s\nPhone: %s\nAddress: %s\nCity: %s\nState: %s\nZip: %s", resident.Name, resident.Email, resident.Email, resident.Address, resident.City, resident.State, resident.Zip)))
+	//w.Write([]byte(fmt.Sprintf("Name: %s\nEmail: %s\nPhone: %s\nAddress: %s\nCity: %s\nState: %s\nZip: %s", resident.Name, resident.Email, resident.Email, resident.Address, resident.City, resident.State, resident.Zip)))
 	w.Write([]byte(out))
 }
