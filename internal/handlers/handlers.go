@@ -73,9 +73,7 @@ func (m *Repository) PostResident(w http.ResponseWriter, r *http.Request) {
 	}
 
 	resident := models.Resident{
-		Name: r.Form.Get("name"),
-		//Email:   r.Form.Get("email"),
-		//Phone:   r.Form.Get("phone"),
+		Name:    r.Form.Get("name"),
 		Address: r.Form.Get("address"),
 		City:    r.Form.Get("city"),
 		State:   r.Form.Get("state"),
