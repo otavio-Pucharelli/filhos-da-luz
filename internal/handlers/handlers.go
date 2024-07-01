@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/otavio-Pucharelli/filhos-da-luz/internal/config"
@@ -96,17 +95,7 @@ func (m *Repository) PostResident(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp := jsonResponse{
-		OK:      true,
-		Message: "Resident saved",
-	}
-
-	out, err := json.MarshalIndent(resp, "", "    ")
-	if err != nil {
-		helpers.ServerError(w, err)
-		return
-	}
-
+	m.DB.InsertResident(resident)
 	//w.Write([]byte(fmt.Sprintf("Name: %s\nEmail: %s\nPhone: %s\nAddress: %s\nCity: %s\nState: %s\nZip: %s", resident.Name, resident.Email, resident.Email, resident.Address, resident.City, resident.State, resident.Zip)))
-	w.Write([]byte(out))
+
 }

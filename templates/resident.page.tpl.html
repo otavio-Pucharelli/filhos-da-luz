@@ -6,7 +6,7 @@
         <form action="/resident" method="post" class="" novalidate>
             <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
             <div class="form-group">
-                <label for="name">Name:</label>
+                <label for="name">Nome:</label>
                 {{with .Form.Errors.Get "name"}}       
                     <label class="text-danger">{{.}}</label>
                 {{end}}
@@ -14,46 +14,263 @@
                     name="name" id="name" value="{{$res.Name}}" required>
             </div>
             <div class="form-group">
-                <label for="email">Email:</label>
-                {{with .Form.Errors.Get "email"}}       
+                <label for="social-name">Nome social:</label>
+                {{with .Form.Errors.Get "social-name"}}       
                     <label class="text-danger">{{.}}</label>
                 {{end}}
-                <input type="email" class="form-control {{with .Form.Errors.Get "email"}} is-invalid{{end}}" name="email" id="email" value="{{$res.Email}}">
+                <input type="text" class="form-control {{with .Form.Errors.Get "social-name"}} is-invalid{{end}}"
+                    name="social-name" id="social-name" value="{{$res.SocialName}}">
             </div>
             <div class="form-group">
-                {{with .Form.Errors.Get "phone"}}       
+                <label for="CPF">CPF:</label>
+                {{with .Form.Errors.Get "CPF"}}       
                     <label class="text-danger">{{.}}</label>
                 {{end}}
-                <label for="phone">Phone:</label>
-                <input type="text" class="form-control {{with .Form.Errors.Get "phone"}} is-invalid{{end}}" name="phone" id="phone" value="{{$res.Phone}}">
+                <input type="text" class="form-control {{with .Form.Errors.Get "CPF"}} is-invalid{{end}}"
+                 name="CPF" id="CPF" value="{{$res.CPF}}">
             </div>
             <div class="form-group">
-                <label for="address">Address:</label>
+                <label for="RG">RG:</label>
+                {{with .Form.Errors.Get "RG"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <input type="text" class="form-control {{with .Form.Errors.Get "RG"}} is-invalid{{end}}"
+                 name="RG" id="RG" value="{{$res.RG}}">
+            </div>
+            <div class="form-group">
+                <label for="birth-date">Data de nascimentp:</label>
+                {{with .Form.Errors.Get "birth-date"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <input type="date" class="form-control {{with .Form.Errors.Get "birth-date"}} is-invalid{{end}}"
+                 name="birth-date" id="birth-date" value="{{$res.BirthDate}}">
+            </div>
+            <div class="form-group">
+                <label for="sex">Sexo:</label>
+                {{with .Form.Errors.Get "sex"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <select class="form-control {{with .Form.Errors.Get "sex"}} is-invalid{{end}}"
+                 name="sex" id="sex" value="{{$res.Sex}}">
+                    <option value=""></option>
+                    <option value="0">Masculino</option>
+                    <option value="1">Feminino</option>
+                    <option value="2">Transmasculino</option>
+                    <option value="3">Transfeminino</option>
+                    <option value="4">Não-binário</option>
+                </select>    
+            </div>
+            <div class="form-group">
+                <label for="maritl-status">Estado civil:</label>
+                {{with .Form.Errors.Get "sex"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <select class="form-control {{with .Form.Errors.Get "maritl-status"}} is-invalid{{end}}"
+                 name="maritl-status" id="sex" value="{{$res.MaritalStatus}}">
+                    <option value=""></option>
+                    <option value="0">Solteiro</option>
+                    <option value="1">Casado</option>
+                    <option value="2">Separado</option>
+                    <option value="3">Divorciado</option>
+                    <option value="4">Viúvo</option>
+                </select>    
+            </div>
+            <div class="form-group">
+                <label for="situation">Situação:</label>
+                {{with .Form.Errors.Get "situation"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <select class="form-control {{with .Form.Errors.Get "situation"}} is-invalid{{end}}"
+                 name="situation" id="situation" value="{{$res.Situation}}">
+                    <option value=""></option>
+                    <option value="0">Em nossos cuidados</option>
+                    <option value="1">Graduado</option>
+                    <option value="2">Excluido</option>
+                    <option value="3">Não acolhido</option>
+                    <option value="4">Extensão de tratamento</option>
+                    <option value="5">Bolsa de estudos</option>
+                    <option value="6">Pós tratamento</option>
+                    <option value="7">Auto-administrativa</option>
+                    <option value="8">Com restrição</option>
+                    <option value="9">Falecido</option>
+                </select>    
+            </div>
+            <div class="form-group">
+                <label for="type-of-residence">Tipo de vaga:</label>
+                {{with .Form.Errors.Get "type-of-residence"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <select class="form-control {{with .Form.Errors.Get "type-of-residence"}} is-invalid{{end}}"
+                 name="type-of-residence" id="type-of-residence" value="{{$res.TypeOfResidence}}">
+                    <option value=""></option>
+                    <option value="0">Vaga social</option>
+                    <option value="1">Vaga social estratégica</option>
+                    <option value="2">Vaga remunerada</option>
+                    <option value="3">Vaga SEFAM</option>
+                    <option value="4">Vaga COPD</option>
+                </select>    
+            </div>
+            <div class="form-group">
+                <label for="current-unit">Unidade:</label>
+                {{with .Form.Errors.Get "current-unit"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <select class="form-control {{with .Form.Errors.Get "current-unit"}} is-invalid{{end}}"
+                 name="current-unit" id="current-unit" value="{{$res.CurrentUnit}}">
+                    <option value=""></option>
+                    <option value="0">Novo dia</option>
+                    <option value="1">Diversidade</option>
+                    <option value="2">Nova esperança</option>
+                    <option value="3">John luz</option>
+                    <option value="4">Morada da luz</option>
+                    <option value="5">Terra da luz</option>
+                    <option value="6">Vila taful</option>
+                    <option value="7">Republica</option>
+                </select>    
+            </div>
+            <div class="form-group">
+                <label for="reception-date">Data de entrada:</label>
+                {{with .Form.Errors.Get "reception-date"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <input type="date" class="form-control {{with .Form.Errors.Get "reception-date"}} is-invalid{{end}}"
+                 name="reception-date" id="reception-date" value="{{$res.RecptionDate}}">
+            </div>
+            <div class="form-group">
+                <label for="departure-date">Data de saida:</label>
+                {{with .Form.Errors.Get "departure-date"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <input type="date" class="form-control {{with .Form.Errors.Get "departure-date"}} is-invalid{{end}}" 
+                name="departure-date" id="departure-date" value="{{$res.DepartureDate}}">
+            </div>
+            <div class="form-group">
+                <label for="address">Endereço:</label>
                 {{with .Form.Errors.Get "address"}}       
                     <label class="text-danger">{{.}}</label>
                 {{end}}
-                <input type="text" class="form-control {{with .Form.Errors.Get "address"}} is-invalid{{end}}" name="address" id="address" value="{{$res.Address}}">
+                <input type="text" class="form-control {{with .Form.Errors.Get "address"}} is-invalid{{end}}"
+                 name="address" id="address" value="{{$res.Address}}">
             </div>
             <div class="form-group">
-                <label for="city">City:</label>
+                <label for="city">Cidade:</label>
                 {{with .Form.Errors.Get "city"}}       
                     <label class="text-danger">{{.}}</label>
                 {{end}}
-                <input type="text" class="form-control {{with .Form.Errors.Get "city"}} is-invalid{{end}}" name="city" id="city" value="{{$res.City}}">
+                <input type="text" class="form-control {{with .Form.Errors.Get "city"}} is-invalid{{end}}"
+                 name="city" id="city" value="{{$res.City}}">
             </div>
             <div class="form-group">
-                <label for="state">State:</label>
+                <label for="state">Estado:</label>
                 {{with .Form.Errors.Get "state"}}       
                     <label class="text-danger">{{.}}</label>
                 {{end}}
-                <input type="text" class="form-control {{with .Form.Errors.Get "state"}} is-invalid{{end}}" name="state" id="state" value="{{$res.State}}">
+                <input type="text" class="form-control {{with .Form.Errors.Get "state"}} is-invalid{{end}}"
+                 name="state" id="state" value="{{$res.State}}">
             </div>
             <div class="form-group">
-                <label for="zip">Zip:</label>
+                <label for="zip">CEP:</label>
                 {{with .Form.Errors.Get "zip"}}       
                     <label class="text-danger">{{.}}</label>
                 {{end}}
-                <input type="text" class="form-control {{with .Form.Errors.Get "zip"}} is-invalid{{end}}" name="zip" id="zip" value="{{$res.Zip}}">
+                <input type="text" class="form-control {{with .Form.Errors.Get "zip"}} is-invalid{{end}}"
+                 name="zip" id="zip" value="{{$res.Zip}}">
+            </div>
+            <div class="form-group">
+                <label for="father-name">Nome do pai:</label>
+                {{with .Form.Errors.Get "father-name"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <input type="text" class="form-control {{with .Form.Errors.Get "father-name"}} is-invalid{{end}}"
+                    name="father-name" id="father-name" value="{{$res.FatherName}}">
+            </div>
+            <div class="form-group">
+                <label for="mother-name">Nome da mãe:</label>
+                {{with .Form.Errors.Get "mother-name"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <input type="text" class="form-control {{with .Form.Errors.Get "mother-name"}} is-invalid{{end}}"
+                    name="mother-name" id="mother-name" value="{{$res.MotherName}}">
+            </div>
+            <div class="form-group">
+                <label for="payment-responsable-name">Nome do responsavel:</label>
+                {{with .Form.Errors.Get "payment-responsable-name"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <input type="text" class="form-control {{with .Form.Errors.Get "payment-responsable-name"}} is-invalid{{end}}"
+                    name="payment-responsable-name" id="payment-responsable-name" value="{{$res.PaymentResponsableName}}">
+            </div>
+            <div class="form-group">
+                <label for="payment-responsable-cpf">CPF do responsavel:</label>
+                {{with .Form.Errors.Get "payment-responsable-cpf"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <input type="text" class="form-control {{with .Form.Errors.Get "payment-responsable-cpf"}} is-invalid{{end}}"
+                 name="payment-responsable-cpf" id="payment-responsable-cpf" value="{{$res.PaymentResponsableCPF}}">
+            </div>
+            <div class="form-group">
+                <label for="responsable-phone">Telefone do responsavel:</label>
+                {{with .Form.Errors.Get "responsable-phone"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <input type="text" class="form-control {{with .Form.Errors.Get "responsable-phone"}} is-invalid{{end}}"
+                 name="responsable-phone" id="responsable-phone" value="{{$res.ResponsablePhone}}">
+            </div>
+            <div class="form-group">
+                <label for="responsable-degree-kinship">Grau de parentesco do responsavel:</label>
+                {{with .Form.Errors.Get "responsable-degree-kinship"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <input type="text" class="form-control {{with .Form.Errors.Get "responsable-degree-kinship"}} is-invalid{{end}}"
+                 name="responsable-degree-kinship" id="responsable-degree-kinship" value="{{$res.ResponsableDegreeOfKinship}}">
+            </div>
+            <div class="form-group">
+                <label for="judiciary">Judiciario:</label>
+                {{with .Form.Errors.Get "judiciary"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <input type="text" class="form-control {{with .Form.Errors.Get "judiciary"}} is-invalid{{end}}"
+                 name="judiciary" id="judiciary" value="{{$res.Judiciary}}">
+            </div>
+            <div class="form-group">
+                <label for="benefits">Beneficios:</label>
+                {{with .Form.Errors.Get "benefits"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <input type="text" class="form-control {{with .Form.Errors.Get "benefits"}} is-invalid{{end}}"
+                 name="benefits" id="benefits" value="{{$res.Benefits}}">
+            </div>
+            <div class="form-group">
+                <label for="suicide">Suicideo:</label>
+                {{with .Form.Errors.Get "suicide"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <input type="checkbox" class="form-control form-check-input {{with .Form.Errors.Get "suicide"}} is-invalid{{end}}"
+                 name="suicide" id="suicide" value="{{$res.Suicide}}">
+            </div>
+            <div class="form-group">
+                <label for="hiv-other-sti">HIV e/ou outras doenças:</label>
+                {{with .Form.Errors.Get "hiv-other-sti"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <input type="text" class="form-control {{with .Form.Errors.Get "hiv-other-sti"}} is-invalid{{end}}"
+                 name="hiv-other-sti" id="hiv-other-sti" value="{{$res.HivOtherSti}}">
+            </div>
+            <div class="form-group">
+                <label for="indication">Indicação:</label>
+                {{with .Form.Errors.Get "indication"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <input type="text" class="form-control {{with .Form.Errors.Get "indication"}} is-invalid{{end}}"
+                 name="indication" id="indication" value="{{$res.Indication}}">
+            </div>
+            <div class="form-group">
+                <label for="observations">Observações:</label>
+                {{with .Form.Errors.Get "observations"}}       
+                    <label class="text-danger">{{.}}</label>
+                {{end}}
+                <input type="text" class="form-control {{with .Form.Errors.Get "observations"}} is-invalid{{end}}"
+                 name="observations" id="observations" value="{{$res.Observations}}">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
